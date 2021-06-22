@@ -4,6 +4,9 @@ import requests
 import zipfile
 import tempfile
 import json
+import time
+
+# from pydicom import dcmread
 
 ini_config = configparser.ConfigParser()
 ini_config.read('./config.ini')
@@ -28,6 +31,24 @@ logging.basicConfig(
     datefmt='%Y-%m-%d %H:%M:%S',
     # filename='run.txt'
 )
+
+# def convertPatientName(dcm_path):
+#     try:
+#         ds = dcmread(dcm_path)
+#     except Exception as e:
+#         logging.warning("读取 dcm 文件失败")
+#         logging.debug(e)
+#         time.sleep(0.5)
+#         exit()
+#         return False
+
+#     # print(ds.PatientName)
+#     PatientName = ds.PatientName.decode("gb18030")
+#     PatientName = str(PatientName).replace(' ', '')
+#     ds.PatientName = PatientName
+#     ds.SpecificCharacterSet = "GB18030"
+#     # ds.Exposure.replace(' ', '')
+#     return ds
 
 def get_zip_file_data(url, headers={}):
     response = requests.get(url, headers=headers)
@@ -88,9 +109,16 @@ if __name__ == "__main__":
     # _tmp_file.seek(0)
  
     zf = zipfile.ZipFile(_tmp_file, mode='r')
+    # dcm_file_list = []
     for names in zf.namelist():
         f = zf.extract(names, unzip_to_dir)  # 解压到zip目录文件下
         print(f)
 
     zf.close()
+
+    # for name in dcm_file_list:
+    #     # print(unzip_to_dir + '\\' + name)
+    #     print(name)
+    #     dataset = convertPatientName(name)
+    #     dataset.save_as(name)
 
