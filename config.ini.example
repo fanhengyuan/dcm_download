@@ -1,0 +1,6 @@
+[local]
+debug = False
+
+[unzip]
+unzip_to_dir = ./
+

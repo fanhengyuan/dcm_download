@@ -1,0 +1,6 @@
+__pycache__/
+build/
+dist/
+download_dcm.spec
+config.ini
+*.dcm
